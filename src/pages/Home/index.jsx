@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
+import { FaArrowRight } from 'react-icons/fa';
 
 import todoListService from '../../services/todolist';
-import { compareData }  from '../../util';
+import { compareData } from '../../util';
 
 import Header from '../../components/Header';
-import { ContainerHome } from './style';
+import { ContainerHome, RowTodoList } from './style';
 
 export default () => {
   const history = useHistory();
@@ -18,7 +19,8 @@ export default () => {
 
   const handleGetTodoList = () => {
     todoListService.getAllTodoList().then((response) => {
-      setTodoList(response.data);
+      const sortObject = response.data.sort(compareData);
+      setTodoList(sortObject);
     });
   };
 
@@ -31,7 +33,7 @@ export default () => {
       });
 
       if (createTodoList.status === 201) {
-        const todoListCreated = createTodoList.data[0];
+        const todoListCreated = createTodoList.data;
         const newTodoList = [...listTodoList, todoListCreated];
         const sortObject = newTodoList.sort(compareData);
         setTodoList(sortObject);
@@ -62,7 +64,7 @@ export default () => {
       <h2>Criar um todolist</h2>
       <form autoComplete='off' onSubmit={handleSubmitNewChecklist}>
         <Row>
-          <Col>
+          <Col xs={12} lg={6} xl={6}>
             <input
               type='text'
               placeholder='Nome do checklist'
@@ -70,7 +72,7 @@ export default () => {
               onChange={(input) => setNameChecklist(input.target.value)}
             />
           </Col>
-          <Col>
+          <Col xs={12} lg={3} xl={3}>
             <input
               type='date'
               placeholder='Data prazo'
@@ -78,18 +80,34 @@ export default () => {
               onChange={(input) => setDateChecklist(input.target.value)}
             />
           </Col>
-          <Col>
+          <Col xs={12} lg={3} xl={3}>
             <button type='submit'>Criar</button>
           </Col>
         </Row>
       </form>
+      <Row>
+        <Col>
+          <h3>TodoList criadas</h3>
+        </Col>
+      </Row>
       {listTodoList.map((todo) => (
-        <Row key={todo.id}>
-          <Col>
-            <h2>{todo.name}</h2>
-            <h5>{todo.date_limit}</h5>
-          </Col>
-        </Row>
+        <RowTodoList key={todo.id}>
+          <Link to={`/tasks/${todo.id}`}>
+            <h3>{todo.name}</h3>
+            <div className='todo-data-icon'>
+              {todo.date_limit ? (
+                <div className='info-data'>
+                  <h5>{todo.dateFormat}</h5>
+                </div>
+              ) : (
+                ''
+              )}
+              <div className="todo-icon">
+                <FaArrowRight size={24} color='#282828' />
+              </div>
+            </div>
+          </Link>
+        </RowTodoList>
       ))}
     </ContainerHome>
   );
