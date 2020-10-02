@@ -14,8 +14,17 @@ const todoList = {
       }
     );
   },
+
   getAllTodoList: async () => {
     return api.get('/todolist', {
+      headers: {
+        ...basicService()
+      }
+    });
+  },
+
+  deleteTodoList: async (id) => {
+    return await api.delete(`/todolist/${id}`, {
       headers: {
         ...basicService()
       }
