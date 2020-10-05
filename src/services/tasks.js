@@ -10,6 +10,18 @@ const tasks = {
     });
   },
 
+  createTask: async ({ idTodoList, name, date_limit }) => {
+    return await api.post(
+      `/tasks/${idTodoList}`,
+      { name, date_limit },
+      {
+        headers: {
+          ...basicService()
+        }
+      }
+    );
+  },
+
   updateTask: async ({ id, status }) => {
     return await api.put(
       `/tasks/${id}`,

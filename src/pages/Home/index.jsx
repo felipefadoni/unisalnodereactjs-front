@@ -3,6 +3,8 @@ import { useHistory, Link } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 import { FaArrowRight } from 'react-icons/fa';
 
+import Loading from '../../components/Loading';
+
 import todoListService from '../../services/todolist';
 import { compareData } from '../../util';
 
@@ -49,14 +51,14 @@ export default () => {
 
   useEffect(() => {
     const token = sessionStorage.getItem('@auth:unisal') || false;
-    if (!token) history.push('/');
-
-    setLoading(false);
-
-    handleGetTodoList();
+    setTimeout(() => {
+      if (!token) history.push('/');
+      setLoading(false);
+      handleGetTodoList();
+    }, 3000);
   }, [history]);
 
-  if (loading) return <h2>loading...</h2>;
+  if (loading) return <Loading />;
 
   return (
     <ContainerHome>
@@ -102,7 +104,7 @@ export default () => {
               ) : (
                 ''
               )}
-              <div className="todo-icon">
+              <div className='todo-icon'>
                 <FaArrowRight size={24} color='#282828' />
               </div>
             </div>

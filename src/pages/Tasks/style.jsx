@@ -11,7 +11,6 @@ export const ContainerTasks = styled(Container)`
   }
 
   .title-todolist {
-
     display: flex;
 
     h2 {
@@ -35,22 +34,47 @@ export const ContainerTasks = styled(Container)`
   .btn-add-task {
     border: none;
     background: transparent;
-    border: 1px solid #F18465;
-    background: #FFC5B5;
+    border: 1px solid #f18465;
+    background: #ffc5b5;
     border-radius: 50px;
     padding: 16px;
     transition: all 0.3s;
+    outline: none;
 
     svg {
       transition: all 0.3s;
     }
 
     &:hover {
-      background-color: #F18465;
+      background-color: #f18465;
       transform: scale(1.2);
       svg {
         fill: #fff;
       }
     }
+  }
+`;
+
+export const FormTask = styled.form`
+  .row {
+    margin-bottom: 16px;
+
+    input {
+      padding: 8px 16px;
+      width: 100%;
+      border-radius: 3px;
+      border: 1px solid #9A9A9A;
+    }
+
+    button {
+      background: #06406B;
+      border: none;
+      width: 100%;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      padding: 16px 0px;
+    }
+
   }
 `;
